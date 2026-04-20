@@ -18,7 +18,13 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
+      "@/lib": ["app/lib/models.ts"],
+      "@/lib/*": ["lib/*", "app/lib/*"],
+      "@/models/*": ["models/*"],
+      "@/components/*": ["app/components/*"],
+      "@/model": ["app/types/model.ts"],
       "@/*": ["./*"]
     }
   },
