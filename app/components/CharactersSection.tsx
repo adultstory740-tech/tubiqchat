@@ -86,7 +86,7 @@ export const CharactersSection = () => {
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 lg:py-24">
       <h2 className="text-4xl lg:text-5xl font-extrabold text-center mb-4 bg-gradient-to-r from-[#F4C430] via-[#FF69B4] to-[#FF2D95] bg-clip-text text-transparent">
-        Apni Dream Girlfriend Chuno
+    Choose Your Perfect Companion ❤️
       </h2>
 
       <p className="text-center text-pink-200/80 mb-12 text-lg">

@@ -20,29 +20,29 @@ export const StepsSection = () => (
           {
             icon: UserPlus,
             number: "01",
-            title: "Profile Choose Karo",
-            desc: "Apni pasand ki personality select karo",
+            title: "Choose Profile",
+            desc: "Apni preferred conversation style select karo",
             glow: false
           },
           {
             icon: MessageCircle,
             number: "02",
-            title: "Chat Start Karo",
-            desc: "Simple aur engaging conversations enjoy karo",
+            title: "Start Chatting",
+            desc: "Instantly conversation shuru karo",
             glow: true
           },
           {
             icon: Coins,
             number: "03",
-            title: "Coins Use Hote Hain",
-            desc: "Har message pe coins deduct hote hain",
+            title: "Use Coins",
+            desc: "Har message ke saath coins deduct hote hain",
             glow: false
           },
           {
             icon: Settings,
             number: "04",
-            title: "Full Control Tumhare Paas",
-            desc: "Jitna chaho utna chat karo",
+            title: "Full Control",
+            desc: "Jab chaho start ya stop kar sakte ho",
             glow: true
           }
         ].map((step, i) => (

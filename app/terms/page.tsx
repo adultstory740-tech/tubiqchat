@@ -16,12 +16,12 @@ export default function TermsPage() {
         <h1 className="text-3xl md:text-4xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#FF2D95] via-[#FF69B4] to-[#F4C430]">Terms & Conditions</h1>
 
         <p className="mb-6 font-medium">
-          Welcome to LoverChat. By using this platform, you agree to the following terms and conditions.
+          Welcome to Tubiq Chat. By using this platform, you agree to the following terms and conditions.
         </p>
 
         <h2 className="text-xl font-bold mt-8 mb-3 text-white">1. Service Overview</h2>
         <p className="mb-4">
-          LoverChat provides virtual conversation experiences for entertainment purposes only. All interactions are system-generated and do not represent real individuals.
+          Tubiq Chat provides virtual conversation experiences for entertainment purposes only. All interactions are system-generated and do not represent real individuals.
         </p>
 
         <h2 className="text-xl font-bold mt-8 mb-3 text-white">2. Eligibility</h2>
@@ -45,7 +45,7 @@ export default function TermsPage() {
         </p>
 
         <h2 className="text-xl font-bold mt-8 mb-3 text-white">6. Contact</h2>
-        <p>For any queries: <a href="mailto:support@loverchat.in" className="text-[#FF69B4] hover:underline">support@loverchat.in</a></p>
+        <p>For any queries: <a href="mailto:tubiqlabs@gmail.com" className="text-[#FF69B4] hover:underline">tubiqlabs@gmail.com</a></p>
       </div>
     </main>
   );

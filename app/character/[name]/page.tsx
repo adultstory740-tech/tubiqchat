@@ -75,12 +75,12 @@ export default function CharacterDetailPage() {
             <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex justify-between items-center">
               <div className="flex flex-col items-center">
                 <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Age</span>
-                <span className="text-2xl font-black text-white">{character.age}</span>
+                {/* <span className="text-2xl font-black text-white">{character.age}</span> */}
               </div>
               <div className="w-px h-10 bg-white/10"></div>
               <div className="flex flex-col items-center">
                 <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Height</span>
-                <span className="text-2xl font-black text-white">{character.height}</span>
+                {/* <span className="text-2xl font-black text-white">{character.height}</span> */}
               </div>
               <div className="w-px h-10 bg-white/10"></div>
               <div className="flex flex-col items-center">
@@ -120,7 +120,7 @@ export default function CharacterDetailPage() {
                     <Activity className="w-5 h-5" /> Figure
                   </h3>
                   <p className="text-pink-50/80 leading-relaxed font-medium">
-                    {character.body}
+                    {/* {character.body} */}
                   </p>
                 </div>
 
@@ -128,9 +128,9 @@ export default function CharacterDetailPage() {
                   <h3 className="text-lg font-bold text-[#FF2D95] flex items-center gap-2 mb-3">
                     <Heart className="w-5 h-5 fill-[#FF2D95]" /> Likes
                   </h3>
-                  <p className="text-pink-50/80 leading-relaxed font-medium">
+                  {/* <p className="text-pink-50/80 leading-relaxed font-medium">
                     {character.likes}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

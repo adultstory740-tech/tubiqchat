@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
+import Transaction from "@/models/Transaction";
 import { getUserId } from "@/lib/auth";
 
 export const PACKS = [
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
 
     const formattedPlanName = `Pack: ${pack.messages} Messages`;
 
+    // ✅ Update User
     const user = await User.findOneAndUpdate(
       { guestId: userId },
       { 
@@ -46,6 +48,16 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ error: "User not found!" }, { status: 404 });
     }
+
+    // ✅ Record Transaction
+    await Transaction.create({
+      userId,
+      planName: formattedPlanName,
+      coinsIncluded: pack.coins,
+      messagesIncluded: pack.messages,
+      price: pack.price,
+      status: "completed"
+    });
 
     return NextResponse.json({ success: true, messageCredits: user.messageCredits, coins: user.coins });
   } catch (error) {

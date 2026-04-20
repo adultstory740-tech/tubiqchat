@@ -30,10 +30,10 @@ export default function Chat() {
   // ✅ GLOBALCREDITS ENGINE (Message packs)
   const [session, setSession] = useState<any>(null);
   const [userCredits, setUserCredits] = useState<number>(0);
-  
+
   const [inactivitySec, setInactivitySec] = useState<number>(0);
   const [isReady, setIsReady] = useState(false);
-  const [inactivityLimit, setInactivityLimit] = useState<number>(20);
+  const [inactivityLimit, setInactivityLimit] = useState<number>(60);
 
   const [hasMoreMsgs, setHasMoreMsgs] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
@@ -136,9 +136,9 @@ export default function Chat() {
 
       if (res.status === 403) {
         if (data.error === "NO_COINS") {
-           router.push(`/buy-coins`);
+          router.push(`/buy-coins`);
         } else {
-           router.push("/");
+          router.push("/");
         }
         return;
       }
@@ -175,6 +175,7 @@ export default function Chat() {
       });
 
       const data = await res.json();
+      console.log(data);
 
       if (data.messages?.length > 0) {
         const historical: ChatAppMessage[] = data.messages.map((m: any) => ({
@@ -303,7 +304,7 @@ export default function Chat() {
 
   if (!model) return null;
 
-  const messagesLeft = Math.max(0, Math.floor(userCredits / 2));
+  const messagesLeft = Math.max(0, Math.floor(userCredits));
 
   return (
     <div className="flex flex-col h-screen bg-[#0f172a] text-white">

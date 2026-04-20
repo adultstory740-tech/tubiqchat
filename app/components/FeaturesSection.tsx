@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import { CheckCircle2 } from "lucide-react";
 
 export const FeaturesSection = () => (
@@ -14,10 +14,10 @@ export const FeaturesSection = () => (
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
         {[
-          "Smooth & simple chat experience",
-          "Personalized conversations",
-          "Different styles & personalities",
-          "Fast and responsive replies"
+          "Simple aur easy-to-use chat interface",
+          "Multiple conversation styles available",
+          "Fast aur responsive replies",
+          "Anytime access"
         ].map((f, i) => (
           <div
             key={i}

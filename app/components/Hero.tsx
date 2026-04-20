@@ -21,17 +21,17 @@ export const Hero = () => {
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white/5 border border-white/10 w-fit mx-auto lg:mx-0 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-[#F4C430]" />
             <span className="text-xs sm:text-sm text-pink-100 italic tracking-wider">
-              Meaningful Chats. Real Connections. ❤️
+              Simple Chats. Instant Conversations.
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
-            <span className="block mb-1 sm:mb-2">Teri Perfect</span>
+            <span className="block mb-1 sm:mb-2">“Jab chahe,</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2D95] via-[#FF69B4] to-[#F4C430]">
-              Online Connection
+              yahan chat
             </span>
-            <span className="block mt-1 sm:mt-2">Bas Yahin Hai ❤️</span>
+            <span className="block mt-1 sm:mt-2">start karo.”</span>
           </h1>
 
           {/* Desc */}

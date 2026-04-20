@@ -5,7 +5,7 @@ import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
 import { CharactersSection } from "@/app/components/CharactersSection";
 import { StepsSection } from "@/app/components/StepsSection";
-import { ReviewsSection } from "@/app/components/ReviewsSection";
+// import { ReviewsSection } from "@/app/components/ReviewsSection";
 import { BenefitsSection } from "@/app/components/BenefitsSection";
 import { FeaturesSection } from "@/app/components/FeaturesSection";
 import { CtaSection } from "@/app/components/CtaSection";
@@ -28,7 +28,7 @@ export default function Home() {
       <CharactersSection />
       <StepsSection />
       <BenefitsSection />
-      <ReviewsSection />
+      {/* <ReviewsSection /> */}
       <FeaturesSection />
       <PricingSection />
       <CtaSection />

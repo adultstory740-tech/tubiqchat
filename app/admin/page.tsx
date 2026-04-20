@@ -168,7 +168,7 @@ export default function AdminDashboard() {
       {/* Navigation (Sidebar on Desktop, Top slider on Mobile) */}
       <div className="bg-[#1e293b] border-b lg:border-b-0 lg:border-r border-white/10 p-4 lg:p-6 flex lg:flex-col lg:w-64 gap-4 lg:gap-8 sticky top-0 z-20 overflow-x-auto w-full lg:h-screen lg:overflow-y-auto no-scrollbar items-center lg:items-stretch shadow-md">
         <div className="flex-shrink-0 mr-4 lg:mr-0">
-          <h1 className="text-xl lg:text-2xl font-black bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">LoverChat</h1>
+          <h1 className="text-xl lg:text-2xl font-black bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">Tubiq Chat</h1>
           <p className="hidden lg:block text-[10px] lg:text-xs text-gray-400 uppercase tracking-widest mt-1 font-bold">Admin Portal</p>
         </div>
 

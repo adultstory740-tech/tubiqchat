@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const token = jwt.sign(
       { guestId: user.guestId },
       process.env.JWT_SECRET!,
-      { expiresIn: "30d" }
+      { expiresIn: "300d" }
     );
 
     return NextResponse.json({

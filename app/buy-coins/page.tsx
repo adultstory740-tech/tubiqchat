@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-const PACKS = [
+export const PACKS = [
   { id: "pack_1", coins: 50, messages: 40, price: 29 },
   { id: "pack_2", coins: 100, messages: 85, price: 49 },
   { id: "pack_3", coins: 200, messages: 180, price: 99 },
@@ -89,6 +89,13 @@ function BuyCoinsForm() {
         <p className="text-sm text-gray-400 mt-1 font-semibold">
           No Time Limits • Uninterrupted Chat
         </p>
+        <p className="text-xs text-white/80 text-center mt-3 bg-white/5 py-2 rounded-lg">
+          ✔ Sirf aapke messages count hote hain
+          ✔ Har message par instant reply milta hai 💬
+        </p>
+        <p className="text-[11px] text-gray-500 text-center mt-3">
+          Sabhi profiles virtual hain aur sirf entertainment ke liye hain.
+        </p>
       </div>
 
       <div className="space-y-4 mb-6">
@@ -101,7 +108,7 @@ function BuyCoinsForm() {
             )}
             <div>
               <p className="font-bold text-lg text-white">🔥 {pack.messages} Messages</p>
-              <p className="text-xs text-pink-400/80 font-bold tracking-wide">COSTS {pack.coins} COINS</p>
+              <p className="text-sm text-pink-400/80 font-bold tracking-wide">Price {pack.price} ₹</p>
             </div>
             <div className="text-right flex flex-col items-end">
               <button
@@ -131,6 +138,7 @@ export default function BuyCoins() {
     <div className="min-h-screen flex items-center justify-center bg-[#0f172a] p-4 text-white py-12">
       <Suspense fallback={<div className="text-pink-400 font-bold">Loading Store...</div>}>
         <BuyCoinsForm />
+
       </Suspense>
     </div>
   );
