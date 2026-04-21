@@ -54,7 +54,7 @@ export default function AboutPage() {
 
                 <h2 className="text-xl font-bold mt-8 mb-3 text-white">6. Contact</h2>
                 <p>
-                    For any queries or support, feel free to reach out at:{" "}
+                    For any queries or supports, feel free to reach out at:{" "}
                     <a href="mailto:tubiqlabs@gmail.com" className="text-[#FF69B4] hover:underline">
                         tubiqlabs@gmail.com
                     </a>
