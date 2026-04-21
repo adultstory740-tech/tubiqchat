@@ -12,9 +12,7 @@ export const CtaSection = () => (
       <h2 className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-10 text-white drop-shadow-xl relative z-10 leading-tight">
         Ready ho ek achi conversation ke liye? 😊
       </h2>
-      <a href="#characters" className="inline-block px-10 py-6 lg:px-14 lg:py-7 rounded-full bg-gradient-to-r from-[#FF2D95] to-[#FF1493] text-white text-2xl lg:text-3xl font-extrabold shadow-[0_0_50px_rgba(255,45,149,0.7)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_80px_rgba(255,45,149,1)] border border-pink-300/50 relative z-10 outline-none">
-        👉 Start Chat Now
-      </a>
+
     </div>
   </section>
 );
