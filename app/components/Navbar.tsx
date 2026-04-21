@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Heart, Menu, X, User } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ export const Navbar = () => {
     <nav className="fixed top-0 w-full z-50 bg-[#0A001F]/80 backdrop-blur-lg border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer">
-          <Heart className="w-7 h-7 text-[#FF2D95] fill-[#FF2D95] animate-pulse" />
+          {/* <Heart className="w-7 h-7 text-[#FF2D95] fill-[#FF2D95] animate-pulse" /> */}
           <span className="text-2xl font-extrabold bg-gradient-to-r from-[#FF2D95] to-[#F4C430] bg-clip-text text-transparent drop-shadow-md">
             Tubiq Chat
           </span>

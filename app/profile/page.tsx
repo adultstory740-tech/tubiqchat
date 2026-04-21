@@ -233,7 +233,7 @@ export default function ProfilePage() {
               </h1>
               <p className="text-pink-200/50 max-w-md text-sm sm:text-base">
                 Manage your account, view your transaction history and track
-                your AI girlfriend interactions.
+                your  friend interactions.
               </p>
             </div>
           </motion.div>

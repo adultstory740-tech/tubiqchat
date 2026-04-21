@@ -42,14 +42,14 @@ export const Hero = () => {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 mt-4 sm:mt-6 justify-center lg:justify-start w-full">
             <a
-              href="#characters"
+              href="/chat/sara"
               className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-gradient-to-r from-[#FF2D95] to-[#FF1493] text-white text-lg sm:text-xl font-bold shadow-[0_0_25px_rgba(255,45,149,0.6)] transition-all hover:scale-105 flex items-center justify-center gap-2"
             >
-              Start Chat Now ❤️
+              Start Chat Now
             </a>
 
             <a
-              href="#characters"
+              href="/chat/kajal"
               className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white/5 border border-white/20 text-white text-lg sm:text-xl font-bold backdrop-blur-md flex items-center justify-center gap-2"
             >
               Explore Profiles 😊
