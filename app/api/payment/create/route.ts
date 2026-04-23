@@ -52,10 +52,21 @@ export async function POST(req: Request) {
         // 🔥 Save transaction BEFORE payment
         await Transaction.create({
             userId,
-            paymentRequestId: pr.id,
-            packId,
-            amount: pack.price,
-            status: "pending"
+
+            // ✅ REQUIRED
+            planName: `Pack ${pack.messages} Messages`,
+            price: pack.price,
+
+            // ✅ IMPORTANT FOR WEBHOOK
+            messagesIncluded: pack.messages,
+            coinsIncluded: pack.coins,
+
+            // ✅ PAYMENT TRACKING
+            paymentId: null, // will be filled in webhook
+            paymentRequestId: pr.id, // ADD THIS FIELD IN SCHEMA (see below)
+
+            status: "pending",
+            credited: false
         });
 
         return NextResponse.json({
