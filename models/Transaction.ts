@@ -15,7 +15,8 @@ const TransactionSchema = new mongoose.Schema({
   status: { type: String, default: "pending" },
   timestamp: { type: Date, default: Date.now },
 
-  credited: { type: Boolean, default: false }
+  credited: { type: Boolean, default: false },
+  packId: { type: String, required: true }
 });
 
 

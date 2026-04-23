@@ -5,6 +5,7 @@ import Transaction from "@/models/Transaction";
 import { connectDB } from "@/lib/db";
 
 export const PACKS = [
+    { id: "pack_0", coins: 5, messages: 5, price: 1 },
     { id: "pack_1", coins: 50, messages: 40, price: 29 },
     { id: "pack_2", coins: 100, messages: 85, price: 49 },
     { id: "pack_3", coins: 200, messages: 180, price: 99 },
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
                 purpose: `Messages ${pack.messages}`,
                 amount: pack.price.toString(),
                 buyer_name: "User",
-                email: "test@test.com",
+                email: `user_${userId}@tubiqchat.com`,
 
                 // 🔥 IMPORTANT
                 redirect_url: `${process.env.BASE_URL}/payment/success`,
@@ -56,6 +57,7 @@ export async function POST(req: Request) {
             // ✅ REQUIRED
             planName: `Pack ${pack.messages} Messages`,
             price: pack.price,
+            packId: pack.id, // ✅ IMPORTANT
 
             // ✅ IMPORTANT FOR WEBHOOK
             messagesIncluded: pack.messages,

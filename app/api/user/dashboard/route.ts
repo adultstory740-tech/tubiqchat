@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     const activeSession = await ChatSession.findOne({ userId, isActive: true });
 
     // ✅ Fetch Transaction History
-    const transactions = await Transaction.find({ userId })
+    const transactions = await Transaction.find({ userId, status: "completed", credited: true })
       .sort({ timestamp: -1 })
       .limit(10);
 

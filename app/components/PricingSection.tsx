@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Zap, Star } from "lucide-react";
 
 export const PACKS = [
+    { id: "pack_0", coins: 5, messages: 5, price: 1 },
     { id: "pack_1", coins: 50, messages: 40, price: 29 },
     { id: "pack_2", coins: 100, messages: 85, price: 49 },
     { id: "pack_3", coins: 200, messages: 180, price: 99 },

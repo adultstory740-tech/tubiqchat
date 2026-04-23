@@ -8,8 +8,4 @@ const UserSchema = new mongoose.Schema({
   planName: { type: String, default: "Free" },
 });
 
-if (mongoose.models.User) {
-  delete mongoose.models.User;
-}
-
 export default mongoose.models.User || mongoose.model("User", UserSchema);
