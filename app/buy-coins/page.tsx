@@ -38,8 +38,8 @@ function BuyCoinsForm() {
       // Fake delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // ✅ Call Fake API
-      const res = await fetch("/api/payment/fake", {
+
+      const res = await fetch("/api/payment/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,18 +53,18 @@ function BuyCoinsForm() {
       if (!res.ok) {
         throw new Error(data.error || "Purchase failed");
       }
+      window.location.href = data.paymentUrl;
+      // // ✅ Refresh coins immediately
+      // await fetch("/api/coins", {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
 
-      // ✅ Refresh coins immediately
-      await fetch("/api/coins", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      // ✅ Redirect back to SAME chat
-      if (character) {
-        router.push(`/chat/${character}`);
-      } else {
-        router.push("/");
-      }
+      // // ✅ Redirect back to SAME chat
+      // if (character) {
+      //   router.push(`/chat/${character}`);
+      // } else {
+      //   router.push("/");
+      // }
 
     } catch (err: any) {
       setError(err.message);
