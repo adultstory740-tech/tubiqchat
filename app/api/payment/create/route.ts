@@ -121,7 +121,7 @@ export async function POST(req: Request) {
             customer_details: {
                 customer_id: userId,
                 customer_email: `user_${userId}@tubiqchat.com`,
-                customer_phone: "", // ⚠️ Dummy phone, can be updated later
+                customer_phone: "9876543210", // ⚠️ Dummy phone, can be updated later
                 customer_name: "User"
             },
             order_meta: {
