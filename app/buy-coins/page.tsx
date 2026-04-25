@@ -30,7 +30,7 @@ const loadCashfree = async () => {
 
 function BuyCoinsForm() {
   const [error, setError] = useState("");
-  const [loadingPack, setLoadingPack] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,13 +40,13 @@ function BuyCoinsForm() {
 
   const handlePurchase = async (packId: string) => {
     setError("");
-    setLoadingPack(packId);
+    setLoading(true);
 
     const token = localStorage.getItem("token");
 
     if (!token) {
       setError("No active session found.");
-      setLoadingPack(null);
+      setLoading(false);
       return;
     }
 
@@ -83,13 +83,9 @@ function BuyCoinsForm() {
           return;
         } catch (e) {
           console.error("Cashfree SDK failed", e);
-          if (data.paymentUrl) {
-            console.warn("Using fallback payment URL");
-            window.location.href = data.paymentUrl;
-          }
+          if (data.paymentUrl) window.location.href = data.paymentUrl;
         }
       } else if (data.paymentUrl) {
-        console.warn("Using fallback payment URL");
         window.location.href = data.paymentUrl;
       }
       // // ✅ Refresh coins immediately
@@ -107,7 +103,7 @@ function BuyCoinsForm() {
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoadingPack(null);
+      setLoading(false);
     }
   };
 
@@ -150,11 +146,11 @@ function BuyCoinsForm() {
             </div>
             <div className="text-right flex flex-col items-end">
               <button
-                disabled={loadingPack !== null}
+                disabled={loading}
                 onClick={() => handlePurchase(pack.id)}
                 className="bg-gradient-to-r from-pink-500 to-rose-400 px-6 py-2 rounded-full font-bold text-sm hover:opacity-80 transition transform active:scale-95 text-white shadow-lg shadow-pink-500/20"
               >
-                {loadingPack === pack.id ? "..." : "Unlock"}
+                {loading ? "..." : "Unlock"}
               </button>
             </div>
           </div>
