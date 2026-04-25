@@ -13,6 +13,21 @@ export const PACKS = [
   { id: "pack_5", coins: 1000, messages: 950, price: 349 }
 ];
 
+const loadCashfree = async () => {
+  return new Promise((resolve, reject) => {
+    if (typeof window !== "undefined" && (window as any).Cashfree) {
+      resolve((window as any).Cashfree);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
+    script.async = true;
+    script.onload = () => resolve((window as any).Cashfree);
+    script.onerror = () => reject(new Error("Failed to load Cashfree SDK"));
+    document.head.appendChild(script);
+  });
+};
+
 function BuyCoinsForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,7 +69,25 @@ function BuyCoinsForm() {
       if (!res.ok) {
         throw new Error(data.error || "Purchase failed");
       }
-      window.location.href = data.paymentUrl;
+
+      if (data.paymentSessionId) {
+        try {
+          const cashfree = await loadCashfree() as any;
+          const cf = cashfree({
+            mode: data.environment || "sandbox"
+          });
+          cf.checkout({
+            paymentSessionId: data.paymentSessionId,
+            redirectTarget: "_self"
+          });
+          return;
+        } catch (e) {
+          console.error("Cashfree SDK failed", e);
+          if (data.paymentUrl) window.location.href = data.paymentUrl;
+        }
+      } else if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      }
       // // ✅ Refresh coins immediately
       // await fetch("/api/coins", {
       //   headers: { Authorization: `Bearer ${token}` }
