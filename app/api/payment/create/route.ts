@@ -121,12 +121,12 @@ export async function POST(req: Request) {
             customer_details: {
                 customer_id: userId,
                 customer_email: `user_${userId}@tubiqchat.com`,
-                customer_phone: "9876543210", // ⚠️ Dummy phone, can be updated later
+                customer_phone: "9" + Math.floor(100000000 + Math.random() * 900000000).toString(),
                 customer_name: "User"
             },
             order_meta: {
                 return_url: `${process.env.BASE_URL}/payment/success?order_id=${orderId}`,
-                notify_url: `${process.env.BASE_URL}/api/payment` // ✅ Fixed URL to match route.ts location
+                notify_url: `${process.env.BASE_URL}/api/payment/webhook` // ✅ Fixed back to webhook as requested
             },
             order_note: `Messages ${pack.messages} Pack`,
             order_tags: {

@@ -84,16 +84,23 @@ export const PACKS = [
 ];
 
 // 🔥 CASHFREE WEBHOOK SIGNATURE VERIFICATION
-function verifyCashfreeWebhook(body: string, signature: string, timestamp: string): boolean {
+function verifyCashfreeWebhook(body: string, signature: string): boolean {
   try {
-    const clientSecret = process.env.CASHFREE_CLIENT_SECRET?.trim() || process.env.CASHFREE_SECRET_KEY?.trim() || "";
-    const payload = timestamp ? timestamp + body : body;
-    const hash = crypto
-      .createHmac("sha256", clientSecret)
+    const secret = process.env.CASHFREE_CLIENT_SECRET?.trim() || process.env.CASHFREE_SECRET_KEY?.trim() || "";
+    
+    // As per user explicitly requesting Safe version: only use body payload
+    const payload = body;
+    
+    const expected = crypto
+      .createHmac("sha256", secret)
       .update(payload)
       .digest("base64");
 
-    return hash === signature;
+    // Timing attack safe comparison
+    return crypto.timingSafeEqual(
+      Buffer.from(expected),
+      Buffer.from(signature)
+    );
   } catch (err) {
     console.error("Signature verification error:", err);
     return false;
@@ -106,55 +113,85 @@ export async function POST(req: Request) {
     const signature = req.headers.get("x-webhook-signature") || "";
     const timestamp = req.headers.get("x-webhook-timestamp") || "";
 
+    const data = JSON.parse(body);
+
     // ✅ Verify webhook signature (Cashfree requirement)
-    if (!verifyCashfreeWebhook(body, signature, timestamp)) {
-      console.warn("Invalid webhook signature - possible spoofed request");
+    if (!verifyCashfreeWebhook(body, signature)) {
+      console.warn("Webhook ignored: Invalid webhook signature", { orderId: data.data?.order?.order_id || data.order_id });
       return NextResponse.json({ ok: true }); // Still return ok to prevent retries
     }
-
-    const data = JSON.parse(body);
 
     // 🔥 CASHFREE WEBHOOK PAYLOAD STRUCTURE (Supports both V3 nested and flat payload)
     const orderId = data.data?.order?.order_id || data.order_id;
     const orderStatus = data.data?.payment?.payment_status || (data.type === "PAYMENT_SUCCESS_WEBHOOK" ? "SUCCESS" : data.order_status);
     const paymentId = data.data?.payment?.cf_payment_id || data.payment_id || null;
+    const orderAmount = data.data?.order?.order_amount || data.order_amount;
 
-    // ⚠️ Check if order status is successful or failed
-    if (orderStatus !== "PAID" && orderStatus !== "SUCCESS") {
-      console.log(`Payment ${orderId} has status: ${orderStatus}`);
-      
-      await connectDB();
+    await connectDB();
+
+    // ⚠️ Better Status Handling
+    if (["FAILED", "CANCELLED"].includes(orderStatus)) {
+      console.log(`Payment ${orderId} failed or cancelled`);
       const failedTxn = await Transaction.findOne({ paymentRequestId: orderId });
-      
       if (failedTxn && !failedTxn.credited && failedTxn.status !== "failed") {
         failedTxn.status = "failed";
         await failedTxn.save();
       }
-      
       return NextResponse.json({ ok: true });
     }
 
-    await connectDB();
+    if (!["PAID", "SUCCESS"].includes(orderStatus)) {
+      console.warn("Webhook ignored: unhandled status", { orderId, status: orderStatus });
+      return NextResponse.json({ ok: true });
+    }
 
-    // ✅ Find transaction by paymentRequestId (which we stored as Cashfree order_id)
-    const txn = await Transaction.findOne({
-      paymentRequestId: orderId // ✅ orderId = Cashfree order_id
-    });
+    // 🔥 Atomic Find and Update to Prevent Race Conditions
+    const txn = await Transaction.findOneAndUpdate(
+      {
+        paymentRequestId: orderId,
+        credited: false
+      },
+      {
+        $set: {
+          credited: true,
+          paymentId: paymentId,
+          status: "completed"
+        }
+      },
+      { new: true } // Returns the document AFTER update
+    );
 
     if (!txn) {
-      console.warn(`Transaction not found for order: ${orderId}`);
+      // It's either not found or already credited
+      const existingTxn = await Transaction.findOne({ paymentRequestId: orderId });
+      if (!existingTxn) {
+        console.warn("Webhook ignored:", { orderId, reason: "txn_not_found" });
+      } else {
+        console.log(`Transaction ${orderId} already credited`);
+      }
       return NextResponse.json({ ok: true });
     }
 
-    // ⚠️ Safety check
+    // ⚠️ Amount Validation (VERY IMPORTANT)
+    if (orderAmount !== undefined && Number(orderAmount).toFixed(2) !== txn.price.toFixed(2)) {
+      console.error(`Amount mismatch! Expected ${txn.price}, got ${orderAmount} for order ${orderId}`);
+      // Revert credited status since validation failed
+      txn.credited = false;
+      txn.status = "failed";
+      await txn.save();
+      return NextResponse.json({ ok: true });
+    }
+
+    // ⚠️ Safety check for included items
     if (!txn.messagesIncluded && !txn.coinsIncluded) {
-      console.error("Missing messagesIncluded and coinsIncluded in transaction");
+      console.error("Missing messagesIncluded and coinsIncluded in transaction", { orderId });
       return NextResponse.json({ ok: true });
     }
 
-    // 🔥 DUPLICATE PROTECTION (idempotency)
-    if (txn.credited) {
-      console.log(`Transaction ${orderId} already credited`);
+    // ✅ Ensure User exists to prevent attacker creating fake users
+    const user = await User.findOne({ guestId: txn.userId });
+    if (!user) {
+      console.error("User not found for guestId:", txn.userId);
       return NextResponse.json({ ok: true });
     }
 
@@ -167,15 +204,8 @@ export async function POST(req: Request) {
           coins: txn.coinsIncluded || 0 
         },
         $set: { planName: txn.planName }
-      },
-      { upsert: true }
+      }
     );
-
-    // ✅ MARK TRANSACTION AS COMPLETED
-    txn.credited = true;
-    txn.paymentId = paymentId; // Store Cashfree payment_id
-    txn.status = "completed";
-    await txn.save();
 
     console.log(`✅ User ${txn.userId} credited ${txn.messagesIncluded} messages and ${txn.coinsIncluded} coins`);
 
