@@ -14,7 +14,10 @@ export default async function SuccessPage({
     }
 
     try {
-        const baseUrl = process.env.CASHFREE_BASE_URL?.trim() || "https://sandbox.cashfree.com/pg";
+        let baseUrl = process.env.CASHFREE_BASE_URL?.trim() || "https://sandbox.cashfree.com/pg";
+        if (baseUrl.endsWith('/')) {
+            baseUrl = baseUrl.slice(0, -1);
+        }
         
         // Fetch order status directly from Cashfree to be 100% sure
         const response = await axios.get(`${baseUrl}/orders/${orderId}`, {
@@ -34,8 +37,8 @@ export default async function SuccessPage({
             // If it's "ACTIVE", user might have abandoned checkout and clicked back.
             return <PaymentFailed redirectTo="/" />;
         }
-    } catch (err) {
-        console.error("Error fetching order status:", err);
+    } catch (err: any) {
+        console.error("Error fetching order status in SuccessPage:", err?.response?.data || err?.message || err);
         return <PaymentFailed redirectTo="/" />;
     }
 }

@@ -125,8 +125,8 @@ export async function POST(req: Request) {
                 customer_name: "User"
             },
             order_meta: {
-                return_url: `${process.env.BASE_URL}/payment/success?order_id=${orderId}`,
-                notify_url: `${process.env.BASE_URL}/api/payment` // ✅ Fixed URL to match route.ts location
+                return_url: `${process.env.BASE_URL}/payment/success?order_id={order_id}`,
+                notify_url: `${process.env.BASE_URL}/api/payment/webhook` // ✅ Fixed URL to match route.ts location
             },
             order_note: `Messages ${pack.messages} Pack`,
             order_tags: {
