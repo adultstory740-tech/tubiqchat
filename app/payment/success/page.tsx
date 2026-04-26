@@ -5,9 +5,10 @@ import axios from "axios";
 export default async function SuccessPage({
     searchParams,
 }: {
-    searchParams: { order_id?: string };
+    searchParams: Promise<{ order_id?: string }>;
 }) {
-    const orderId = searchParams.order_id;
+    const resolvedSearchParams = await searchParams;
+    const orderId = resolvedSearchParams.order_id;
 
     if (!orderId) {
         return <PaymentFailed redirectTo="/" />;
