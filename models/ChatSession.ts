@@ -12,6 +12,13 @@ const ChatSessionSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
   endedAt: { type: Date },
   endedReason: { type: String },
+
+  summary: { type: String, default: "" },
+  lastSummaryAt: { type: Date },
+  totalMessages: { type: Number, default: 0 },
+  
+  isAdultMode: { type: Boolean, default: false },
+  adultTriggeredAt: { type: Date },
 });
 
 ChatSessionSchema.index({ userId: 1, characterName: 1, isActive: 1 });
