@@ -4,7 +4,7 @@
 // import User from "@/models/User";
 
 // export const PACKS = [
-//   { id: "pack_0", coins: 5, messages: 5, price: 10 },
+
 //   { id: "pack_1", coins: 50, messages: 40, price: 29 },
 //   { id: "pack_2", coins: 100, messages: 85, price: 49 },
 //   { id: "pack_3", coins: 200, messages: 180, price: 99 },
@@ -75,8 +75,8 @@ import User from "@/models/User";
 import crypto from "crypto";
 
 export const PACKS = [
-  { id: "pack_0", coins: 5, messages: 5, price: 10 },
-  { id: "pack_1", coins: 50, messages: 40, price: 29 },
+
+  { id: "pack_1", coins: 50, messages: 45, price: 35 },
   { id: "pack_2", coins: 100, messages: 85, price: 49 },
   { id: "pack_3", coins: 200, messages: 180, price: 99 },
   { id: "pack_4", coins: 500, messages: 450, price: 199 },
@@ -87,12 +87,12 @@ export const PACKS = [
 function verifyCashfreeWebhook(body: string, signature: string, timestamp: string): boolean {
   try {
     const secret = process.env.CASHFREE_CLIENT_SECRET?.trim() || process.env.CASHFREE_SECRET_KEY?.trim() || "";
-    
+
     // Some Cashfree configs use ts+body, others use just body.
     // The user explicitly requested to verify with just body or check carefully.
     // We will use the timestamp if provided, but you can also default to just body if your Cashfree app is configured that way.
     const payload = timestamp ? timestamp + body : body;
-    
+
     const expected = crypto
       .createHmac("sha256", secret)
       .update(payload)
@@ -191,9 +191,9 @@ export async function POST(req: Request) {
     await User.findOneAndUpdate(
       { guestId: txn.userId },
       {
-        $inc: { 
+        $inc: {
           messageCredits: txn.messagesIncluded || 0,
-          coins: txn.coinsIncluded || 0 
+          coins: txn.coinsIncluded || 0
         },
         $set: { planName: txn.planName }
       },
