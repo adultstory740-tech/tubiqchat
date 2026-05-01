@@ -162,7 +162,7 @@ export async function POST(req: Request) {
         }
 
         // Checkout URL depending on environment
-        const paymentLink = `https://payments-test.cashfree.com/order/#${paymentSessionId}`;
+        const paymentLink = `https://payments.cashfree.com/order/#${paymentSessionId}`;
 
         await connectDB();
 
