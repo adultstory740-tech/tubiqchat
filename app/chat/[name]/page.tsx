@@ -255,12 +255,12 @@ export default function Chat() {
           setSessionEnded(true);
 
           if (data.error === "NO_COINS" || data.error === "NO_CREDITS" || data.error === "LIMIT") {
+            router.push("/buy-coins")
             setToastMessage("You're out of credits. Please refill your pack.");
-            setTimeout(() => router.push("/buy-coins"), 2500);
           }
           else if (data.error === "SESSION_EXPIRED") {
             setToastMessage("Session expired.");
-            setTimeout(() => router.push("/"), 2000);
+            router.push("/")
           }
         }
 
