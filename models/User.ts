@@ -5,7 +5,8 @@ const UserSchema = new mongoose.Schema({
 
   coins: { type: Number, default: 0 },
   messageCredits: { type: Number, default: 0 },
-  planName: { type: String, default: "Free" },
+  isFirstTimeBonusGiven: { type: Boolean, default: false },
+  planName: { type: String, default: "Free Trial" },
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

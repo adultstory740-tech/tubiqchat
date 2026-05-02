@@ -13,21 +13,52 @@ export async function POST(req: Request) {
 
     await connectDB();
 
-    let user = await User.findOne({ guestId });
+    // 🔥 1. RACE CONDITION FIX: Atomic Upsert
+    let user = await User.findOneAndUpdate(
+      { guestId },
+      {
+        $setOnInsert: {
+          guestId,
+          messageCredits: 5,
+          isFirstTimeBonusGiven: true,
+          coins: 0,
+          planName: "Free Trial"
+        }
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
 
-    if (!user) {
-      user = await User.create({ guestId });
+    // Fallback safety (if somehow flag is false for an old user)
+    if (!user.isFirstTimeBonusGiven) {
+      user = await User.findOneAndUpdate(
+        { guestId, isFirstTimeBonusGiven: false },
+        { 
+          $inc: { messageCredits: 5 },
+          $set: { isFirstTimeBonusGiven: true }
+        },
+        { new: true }
+      ) || user;
     }
 
+    // 🔥 2. JWT PAYLOAD FIX: Include essential user claims
     const token = jwt.sign(
-      { guestId: user.guestId },
+      { 
+        id: user._id.toString(),
+        guestId: user.guestId,
+        planName: user.planName,
+        isFirstTimeBonusGiven: user.isFirstTimeBonusGiven
+      },
       process.env.JWT_SECRET!,
       { expiresIn: "300d" }
     );
 
+    // 🔥 3. RESPONSE DATA FIX: Return complete user info
     return NextResponse.json({
       token,
       coins: user.coins,
+      messageCredits: user.messageCredits,
+      planName: user.planName,
+      isFirstTimeBonusGiven: user.isFirstTimeBonusGiven
     });
   } catch (error) {
     console.error(error);
