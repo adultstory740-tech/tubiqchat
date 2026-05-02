@@ -387,7 +387,7 @@ export default function Chat() {
             </div>
           ) : (
             <>
-              <ChatInput onSend={handleSend} disabled={isTyping || sessionEnded || messagesLeft <= 0} />
+              <ChatInput onSend={handleSend} disabled={isTyping || sessionEnded} />
               <div className="mt-2 text-center text-[10px] text-white/40 flex justify-end px-2 gap-2">
                 <span>(Gap Timeout: {Math.max(0, inactivityLimit - inactivitySec)}s)</span>
               </div>
